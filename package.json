@@ -1,0 +1,22 @@
+{
+  "name": "twitter-node",
+  "version": "1.0.0",
+  "description": "twitter-node",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js -e js",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forza11879/twitter-node.git"
+  },
+  "author": "john",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forza11879/twitter-node/issues"
+  },
+  "homepage": "https://github.com/forza11879/twitter-node#readme"
+}
