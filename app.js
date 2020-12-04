@@ -4,10 +4,10 @@ import socketio from 'socket.io';
 import path from 'path';
 import dotnev from 'dotenv';
 import cors from 'cors';
-import { stream, sendMessage } from './uitls/twitter.js';
+import { stream } from './uitls/twitter.js';
 
 // routes
-import mainRoute from './routes/tweets.js';
+import twitterRoute from './routes/tweetss.js';
 
 dotnev.config({ path: './config/dev.env' });
 
@@ -18,11 +18,8 @@ const io = socketio(server);
 app.use(cors());
 app.use(bodyParser.json());
 
-app.locals.searchTerm = 'JavaScript'; //Default search term for twitter stream.
-app.locals.showRetweets = false; //Default
-
 // Mount Rout
-app.use('/', mainRoute(app, io));
+app.use('/twitter', twitterRoute);
 // require('./routes/tweets.js')(app, io);
 
 const port = process.env.PORT;
@@ -32,20 +29,16 @@ server.listen(port, function () {
   console.log(`Server is up on port ${port}`);
 });
 
+app.locals.searchTerm = 'JavaScript'; //Default search term for twitter stream.
+app.locals.showRetweets = false; //Default
+
 let socketConnection;
 let twitterStream;
 
 //Establishes socket connection.
 io.on('connection', (socket) => {
   socketConnection = socket;
-  stream(app.locals.searchTerm, twitterStream);
+  stream(app.locals.searchTerm, twitterStream, socketConnection);
   socket.on('connection', () => console.log('Client connected'));
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
-
-/**
- * Emits data from stream.
- * @param {String} msg
- */
-
-sendMessage(msg, socketConnection);
